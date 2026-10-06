@@ -43,7 +43,15 @@
       </thead>
       <tbody>
         <tr v-for="row in rows" :key="String(row.id)">
-          <td v-for="column in columns" :key="column">{{ row[column] ?? '—' }}</td>
+          <td v-for="column in columns" :key="column">
+            <template v-if="column === '修复履历'">
+              <span v-if="!repairHistoryOf(row).length">—</span>
+              <div v-for="(item, index) in repairHistoryOf(row)" :key="index" class="history-line">
+                {{ item }}
+              </div>
+            </template>
+            <template v-else>{{ row[column] ?? '—' }}</template>
+          </td>
           <td>{{ row.status }}</td>
           <td class="row-actions">
             <button
@@ -82,7 +90,7 @@ import {
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('facility_archive')
-const columns = ["档案编号", "设施名称", "设施类别", "所属区域", "竣工日期", "设计图纸", "承建企业", "档案状态"]
+const columns = ["档案编号", "设施名称", "设施类别", "所属区域", "竣工日期", "设计图纸", "承建企业", "档案状态", "修复履历"]
 const actions = ["提交归档", "更新档案", "作废档案"]
 const statuses = ["待归档", "已归档", "待更新", "已作废"]
 const stats = [{"label": "档案总数", "value": 0}, {"label": "待归档档案", "value": 0}, {"label": "待更新档案", "value": 0}]
@@ -98,6 +106,20 @@ const statusSummary = computed(() =>
     count: rows.value.filter((row) => String(row.status) === status).length,
   })),
 )
+
+/** 修复履历在记录里存成 JSON 字符串数组，展示时还原成一行一条。 */
+function repairHistoryOf(row: EntryRow): string[] {
+  const raw = row['修复履历']
+  if (typeof raw !== 'string' || raw.trim() === '') {
+    return []
+  }
+  try {
+    const parsed = JSON.parse(raw) as unknown
+    return Array.isArray(parsed) ? parsed.map(String) : []
+  } catch {
+    return []
+  }
+}
 
 function resetFilters() {
   filters.value = {}
