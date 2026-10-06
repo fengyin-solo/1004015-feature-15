@@ -3,7 +3,7 @@
     <header class="page-head">
       <div>
         <h2>设施档案管理</h2>
-        <p class="page-desc">维护设施档案，围绕档案编号、设施名称、设施类别、所属区域做登记、筛选与状态流转。</p>
+        <p class="page-desc">维护设施档案，围绕档案编号、设施名称、设施类别、所属区域做登记、筛选与状态流转；非开挖修复复检通过后在此追加修复履历。</p>
       </div>
       <div class="page-actions">
         <button class="btn primary" type="button" @click="openCreate">登记设施档案</button>
@@ -37,6 +37,7 @@
       <thead>
         <tr>
           <th v-for="column in columns" :key="column">{{ column }}</th>
+          <th>修复履历</th>
           <th>当前状态</th>
           <th>可执行动作</th>
         </tr>
@@ -44,6 +45,14 @@
       <tbody>
         <tr v-for="row in rows" :key="String(row.id)">
           <td v-for="column in columns" :key="column">{{ row[column] ?? '—' }}</td>
+          <td class="history-cell">
+            <template v-if="repairHistory(row).length">
+              <p v-for="(line, lineIndex) in repairHistory(row)" :key="lineIndex" class="history-line">
+                {{ line }}
+              </p>
+            </template>
+            <span v-else class="muted-text">无修复履历</span>
+          </td>
           <td>{{ row.status }}</td>
           <td class="row-actions">
             <button
@@ -58,7 +67,7 @@
           </td>
         </tr>
         <tr v-if="!rows.length">
-          <td :colspan="columns.length + 2" class="empty-state">暂无设施档案数据，可先登记设施档案</td>
+          <td :colspan="columns.length + 3" class="empty-state">暂无设施档案数据，可先登记设施档案</td>
         </tr>
       </tbody>
     </table>
@@ -98,6 +107,12 @@ const statusSummary = computed(() =>
     count: rows.value.filter((row) => String(row.status) === status).length,
   })),
 )
+
+// 修复履历由非开挖修复复检通过后追加；这里只展示，档案页不直接改写。
+function repairHistory(row: EntryRow): string[] {
+  const value = row['修复履历']
+  return Array.isArray(value) ? (value as string[]) : []
+}
 
 function resetFilters() {
   filters.value = {}

@@ -100,6 +100,11 @@ export function loadOverview(): OverviewResult {
     { label: '登记总量', value: modules.reduce((sum, item) => sum + item.created, 0) },
     { label: '待处理', value: modules.reduce((sum, item) => sum + item.pending, 0) },
     { label: '异常量', value: modules.reduce((sum, item) => sum + item.abnormal, 0) },
+    // 复检通过（或直接确认可交付）后进入已完成，这里随之变化，与非开挖修复页口径一致。
+    {
+      label: '已完成修复',
+      value: (rows.trenchless ?? []).filter((row) => String(row.status) === '已完成').length,
+    },
   ]
   return { cards, modules }
 }

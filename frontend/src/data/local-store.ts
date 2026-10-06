@@ -2,7 +2,8 @@ import { SEED_ROWS } from './seed'
 import type { EntryRow } from './types'
 
 // 本地持久化：数据放在 localStorage 里，刷新、关掉再打开都还在。
-const STORAGE_KEY = 'underground-pipeline-inspection:entries'
+// 结构或示例数据有破坏性调整时升级版本号，旧缓存会被丢弃，避免新旧字段混用。
+const STORAGE_KEY = 'underground-pipeline-inspection:entries:v2'
 
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T

@@ -35,3 +35,26 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .error-text { color: #b42318; }
 .status-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .legend-item { background: #eef2f7; border-radius: 999px; padding: 2px 10px; }
+.muted-text { color: var(--muted); }
+
+/* 工艺质量判定徽标 */
+.verdict-badge { display: inline-block; border-radius: 999px; padding: 2px 10px; font-size: 12px; white-space: nowrap; }
+.verdict-pass { background: #dcfae6; color: #027a48; }
+.verdict-pending { background: #fef3c7; color: #b45309; }
+.verdict-reinforce { background: #fee4e2; color: #b42318; }
+.verdict-missing { background: #e2e8f0; color: #475569; }
+
+.basis-cell { max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+.trenchless-table .history-cell { min-width: 160px; }
+.history-line { margin: 2px 0; display: flex; gap: 6px; align-items: center; }
+.conflict-flag { background: #fff7ed; color: #c2410c; border-radius: 4px; padding: 0 6px; font-size: 11px; white-space: nowrap; }
+
+/* 现场复检 / 补充材料弹窗 */
+.modal-mask { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); display: flex; align-items: center; justify-content: center; z-index: 20; }
+.modal-panel { background: #fff; border-radius: 10px; width: 480px; max-width: calc(100vw - 32px); padding: 18px 20px; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.2); }
+.modal-panel h3 { margin: 0 0 10px; font-size: 15px; }
+.modal-tip { margin: 0 0 12px; font-size: 12px; color: var(--muted); background: #f6f8fb; border-radius: 6px; padding: 8px 10px; }
+.modal-field { display: block; margin-bottom: 10px; }
+.modal-field span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.modal-field input, .modal-field select, .modal-field textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font: inherit; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
